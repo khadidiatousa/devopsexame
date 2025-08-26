@@ -1,0 +1,203 @@
+/* Variables CSS pour un design cohérent */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #dbeafe;
+  --text-dark: #374151;
+  --text-light: #f9fafb;
+  --card-bg: #ffffff;
+  --bg-page: #f3f4f6;
+  --border-color: #e5e7eb;
+}
+
+/* Styles de base du corps */
+.dashboard-container {
+  max-width: 1280px;
+  margin: auto;
+  background-color: var(--card-bg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+/* En-tête */
+.tete {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .tete {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.titre h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.titre p {
+  color: var(--text-dark);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .actions {
+    margin-top: 0;
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn.refresh {
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+}
+
+.btn.refresh:hover {
+  background-color: var(--border-color);
+}
+
+.btn.download {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.btn.download:hover {
+  background-color: #1e40af;
+}
+
+/* Cartes d'information */
+.infos {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .infos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 5px solid;
+}
+
+.card .info p:first-child {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.card .info p:last-child {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-top: 0.25rem;
+}
+
+.card .icon {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 0.75rem;
+  border-radius: 9999px;
+}
+
+.card .icon i {
+  font-size: 2rem;
+}
+
+/* Section des statistiques */
+.statistique {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .statistique {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.diagramme, .cercle {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.te {
+  margin-bottom: 1rem;
+}
+
+.te h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.te p {
+  font-size: 0.875rem;
+  color: var(--text-dark);
+}
+
+/* Barre de progression */
+.barre {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 1.5rem;
+  background-color: var(--border-color);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 9999px;
+  transition: width 0.5s ease-in-out;
+}
+

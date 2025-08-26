@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  # Définir notre service pour l'application Angular
+  angular-app:
+    container_name: devops_ci_cd
+    # Utiliser le Dockerfile local pour construire l'image
+    build: .
+    # Mapper le port 80 du conteneur au port 8080 de la machine hôte
+    ports:
+      - "8080:80"
+    # Lier un volume pour le rechargement automatique (utile pour le développement,
+    # mais peut être retiré en production)
+    # volumes:
+    #   - .:/app
+    # Réseau
+    networks:
+      - ci-cd-network
+
+# Définir le réseau pour l'orchestration
+networks:
+  ci-cd-network:
+    driver: bridge

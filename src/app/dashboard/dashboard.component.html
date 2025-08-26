@@ -1,0 +1,281 @@
+<div class="dashboard-container">
+  <!-- En-tête -->
+  <div class="tete">
+    <div class="titre">
+      <h1 class="text-3xl font-bold">Tableau de Bord</h1>
+      <p class="text-gray-500 mt-1">Aperçu rapide de la situation du personnel.</p>
+    </div>
+    <div class="actions">
+      <button (click)="chargerDonneesEtDessiner()" class="btn refresh">
+        <i class="fas fa-sync-alt"></i> Rafraîchir
+      </button>
+      <button (click)="telechargerRapport('pdf')" class="btn download">
+        <i class="fas fa-file-pdf"></i> Rapport PDF
+      </button>
+      <button (click)="telechargerRapport('excel')" class="btn download">
+        <i class="fas fa-file-excel"></i> Rapport Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Indicateurs de chargement et messages -->
+  <div *ngIf="isLoading" class="text-center my-4 text-blue-600">
+    <i class="fas fa-spinner fa-spin mr-2"></i> Chargement des données...
+  </div>
+  <div *ngIf="message" class="text-center my-4 text-gray-700 font-medium">
+    <p>{{ message }}</p>
+  </div>
+
+  <!-- Section des cartes d'information -->
+  <div class="infos">
+    <div class="card border-l-blue-500">
+      <div class="info">
+        <p>Total Personnel</p>
+        <p class="text-3xl font-bold">{{ totalPersonnel }}</p>
+      </div>
+      <div class="icon bg-blue-100 text-blue-600">
+        <i class="fas fa-users"></i>
+      </div>
+    </div>
+    <div class="card border-l-green-500">
+      <div class="info">
+        <p>Personnel Présent</p>
+        <p class="text-3xl font-bold">{{ personnelPresent }}</p>
+      </div>
+      <div class="icon bg-green-100 text-green-600">
+        <i class="fas fa-user-check"></i>
+      </div>
+    </div>
+    <div class="card border-l-red-500">
+      <div class="info">
+        <p>Personnel Absent</p>
+        <p class="text-3xl font-bold">{{ personnelAbsent }}</p>
+      </div>
+      <div class="icon bg-red-100 text-red-600">
+        <i class="fas fa-user-times"></i>
+      </div>
+    </div>
+  </div>
+  <!--
+  import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { PersonnelService } from '../../Service/personnel.service';
+import { PointageService } from '../../Service/pointage.service';
+import { forkJoin, Subscription, interval } from 'rxjs';
+import { Chart, registerables } from 'chart.js';
+
+// Enregistrer les composants de Chart.js
+Chart.register(...registerables);
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
+})
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  // Données de base
+  totalPersonnel: number = 0;
+  personnelPresent: number = 0;
+  personnelAbsent: number = 0;
+  tauxPresence: number = 0;
+
+  // Instances des graphiques
+  private presenceChart: Chart | undefined;
+  private donutChart: Chart | undefined;
+
+  // État de l'UI et abonnement
+  isLoading: boolean = false;
+  message: string = '';
+  private refreshSubscription!: Subscription;
+
+  constructor(
+    private personnelService: PersonnelService,
+    private pointageService: PointageService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.chargerDonneesEtDessiner();
+
+      // Mettre en place un rafraîchissement automatique
+      this.refreshSubscription = interval(60000).subscribe(() => {
+        this.chargerDonneesEtDessiner();
+        this.message = `Données mises à jour à ${new Date().toLocaleTimeString()}.`;
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
+    if (this.presenceChart) {
+      this.presenceChart.destroy();
+    }
+    if (this.donutChart) {
+      this.donutChart.destroy();
+    }
+  }
+
+  chargerDonneesEtDessiner() {
+    this.isLoading = true;
+    this.message = '';
+
+    forkJoin({
+      allPersonnels: this.personnelService.getAllPersonnels(),
+      allPointages: this.pointageService.getAllPointages()
+    }).subscribe({
+      next: (data) => {
+        this.totalPersonnel = data.allPersonnels.length;
+
+        const today = new Date().toISOString().slice(0, 10);
+        const presentToday = new Set<string>();
+
+        data.allPointages.forEach(pointage => {
+          if (pointage.date === today && pointage.heure_arrivee) {
+            presentToday.add(pointage.personnel_id);
+          }
+        });
+
+        this.personnelPresent = presentToday.size;
+        this.personnelAbsent = this.totalPersonnel - this.personnelPresent;
+        this.tauxPresence = this.totalPersonnel > 0 ? Math.round((this.personnelPresent / this.totalPersonnel) * 100) : 0;
+
+        this.fetchHistoricalData();
+        this.drawDonutChart(this.tauxPresence);
+
+        this.isLoading = false;
+        this.message = `Données chargées avec succès.`;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des données :', error);
+        this.isLoading = false;
+        this.message = 'Impossible de charger les données.';
+      }
+    });
+  }
+
+  fetchHistoricalData() {
+    const historicalData = [
+      { date: 'J-6', presenceRate: 85 },
+      { date: 'J-5', presenceRate: 88 },
+      { date: 'J-4', presenceRate: 92 },
+      { date: 'J-3', presenceRate: 95 },
+      { date: 'J-2', presenceRate: 90 },
+      { date: 'J-1', presenceRate: 87 },
+      { date: 'Aujourd\'hui', presenceRate: this.tauxPresence },
+    ];
+
+    const labels = historicalData.map(d => d.date);
+    const data = historicalData.map(d => d.presenceRate);
+    this.drawBarChart(labels, data);
+  }
+
+  drawBarChart(labels: string[], data: number[]) {
+    if (this.presenceChart) {
+      this.presenceChart.destroy();
+    }
+    const ctx = (document.getElementById('presenceChart') as HTMLCanvasElement)?.getContext('2d');
+    if (ctx) {
+      this.presenceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Taux de présence (%)',
+            data: data,
+            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 1,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { callback: (value) => value + '%' }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  drawDonutChart(taux: number) {
+    if (this.donutChart) {
+      this.donutChart.destroy();
+    }
+    const ctx = (document.getElementById('donutChart') as HTMLCanvasElement)?.getContext('2d');
+    if (ctx) {
+      this.donutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Présents', 'Absents'],
+          datasets: [{
+            data: [taux, 100 - taux],
+            backgroundColor: ['#2563eb', '#d1d5db'],
+            hoverBackgroundColor: ['#1d4ed8', '#9ca3af']
+          }]
+        },
+        options: {
+          responsive: true,
+          cutout: '75%',
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+  }
+
+  /**
+   * @description Déclenche le téléchargement d'un rapport PDF ou Excel.
+   * @param format Le format du rapport.
+   */
+  telechargerRapport(format: 'pdf' | 'excel'): void {
+    // Ne rien faire si le format n'est pas 'pdf'
+    if (format !== 'pdf') {
+      this.message = `Génération de rapport non supportée pour le format ${format.toUpperCase()}.`;
+      return;
+    }
+
+    this.message = `Génération du rapport au format ${format.toUpperCase()} en cours...`;
+    this.isLoading = true;
+
+    this.pointageService.downloadReport(format).subscribe({
+      next: (blob: Blob) => {
+        // Crée une URL temporaire pour le Blob
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.href = url;
+        // Définit le nom du fichier à télécharger
+        a.download = `rapport_personnel_${new Date().toISOString().slice(0, 10)}.${format}`;
+        a.click();
+        window.URL.revokeObjectURL(url); // Libère la mémoire
+        a.remove(); // Supprime l'élément 'a' du DOM
+
+        this.message = `Rapport ${format.toUpperCase()} téléchargé avec succès !`;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors du téléchargement du rapport :', err);
+        this.message = `Erreur lors du téléchargement du rapport ${format.toUpperCase()}.`;
+        this.isLoading = false;
+      }
+    });
+  }
+}
+--->
+</div>

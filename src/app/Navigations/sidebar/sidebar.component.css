@@ -1,0 +1,57 @@
+:root {
+  --1: #E0FBFC;
+  --2: #C2DFE3;
+  --3: #9DB4C0;
+  --4: #5C6B73;
+  --5: #253237;
+  --6: #FFFFFF;
+  --7: #007bff;
+}
+.sidebar {
+    background-color:var(--1);
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .logo i {
+    font-size: 8em;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu li {
+    margin-bottom: 10px;
+  }
+  
+  
+  .menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color:var(--5);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .menu a i {
+    margin-right: 10px;
+  }
+  
+  .menu a:hover,
+  .menu a.active {
+    background-color:var(--3);
+    color: var(--5);
+  }
+  
+ 

@@ -1,0 +1,37 @@
+<h2>Register</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" required>
+    <div *ngIf="registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)">
+      <div *ngIf="registerForm.controls['name'].errors?.['required']">Name is required.</div>
+    </div>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" formControlName="email" required email>
+    <div *ngIf="registerForm.controls['email'].invalid && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched)">
+      <div *ngIf="registerForm.controls['email'].errors?.['required']">Email is required.</div>
+      <div *ngIf="registerForm.controls['email'].errors?.['email']">Invalid email format.</div>
+    </div>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" formControlName="password" required minlength="8">
+    <div *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)">
+      <div *ngIf="registerForm.controls['password'].errors?.['required']">Password is required.</div>
+      <div *ngIf="registerForm.controls['password'].errors?.['minlength']">Password must be at least 8 characters long.</div>
+    </div>
+  </div>
+  <div>
+    <label for="password_confirmation">Confirm Password:</label>
+    <input type="password" id="password_confirmation" formControlName="password_confirmation" required>
+    <div *ngIf="registerForm.controls['password_confirmation'].invalid && (registerForm.controls['password_confirmation'].dirty || registerForm.controls['password_confirmation'].touched)">
+      <div *ngIf="registerForm.controls['password_confirmation'].errors?.['required']">Confirm Password is required.</div>
+    </div>
+    <div *ngIf="registerForm.errors?.['passwordMismatch']">Passwords do not match.</div>
+  </div>
+ <button type="submit" [disabled]="!registerForm.valid">S'inscrire</button>
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+</form>
+<p>Already have an account? <a routerLink="/login">Login</a></p>

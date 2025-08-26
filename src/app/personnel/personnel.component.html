@@ -1,0 +1,50 @@
+<div class="body">
+  <div class="tete">
+    <div class="titre">
+      <p>Liste des Personnels</p> </div>
+  </div>
+  <div class="contain">
+    <div class="te"></div>
+    <div class="table">
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID Personnel</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Service</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of personnels; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ p.barcode }}</td>
+            <td>{{ p.nom }}</td>
+            <td>{{ p.prenom }}</td>
+            <td>{{ p.adresse }}</td>
+            <td>{{ p.telephone }}</td>
+            <td>{{ p.service }}</td>
+            <td>
+              <img *ngIf="p.photo_url" [src]="p.photo_url" alt="Photo" style="max-width: 50px; max-height: 50px; object-fit: cover;">
+              <span *ngIf="!p.photo_url">N/A</span>
+            </td>
+            <td>
+             <td>
+                <button class="btn btn-info btn-sm me-2" [routerLink]="['/ajouter', p.id]">Modifier</button>
+                <button class="btn btn-danger btn-sm" (click)="deletePersonnel(p.id)">Supprimer</button>
+
+            </td>
+          </tr>
+          <tr *ngIf="personnels.length === 0">
+            <td colspan="9" class="text-center">Aucun personnel trouvé.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

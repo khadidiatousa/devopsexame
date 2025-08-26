@@ -1,0 +1,44 @@
+:root {
+    --1: #E0FBFC;
+    --2: #C2DFE3;
+    --3: #9DB4C0;
+    --4: #5C6B73;
+    --5: #253237;
+    --6: #FFFFFF;
+    --7: #007bff;
+  }
+  .body{
+    margin: 0;
+    padding: 0;
+    
+}
+.tete{
+    background-color: transparent;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.tete div{
+    margin-left: 2em;
+}
+
+.titre p{
+    font-size: 20px;
+}
+.contain{
+    width: 950px;
+    height: 770px; ;
+    background-color:  var(--6);
+    margin: 20px;
+
+}
+.te{
+    width: 950px;
+    height: 68px; ;
+    background-color:  var(--1);
+}
+

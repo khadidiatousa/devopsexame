@@ -1,0 +1,15 @@
+
+<div *ngIf="showAppLayout" class="app-layout">
+  <app-nav></app-nav>
+  <div class="main-container">
+    <app-sidebar></app-sidebar>
+    <div class="content">
+      <router-outlet></router-outlet> <!-- Le contenu de la route protégée ira ici -->
+    </div>
+  </div>
+</div>
+
+<!-- Ce conteneur principal sera affiché si C'EST une page d'authentification (ex: Login, Register) -->
+<div *ngIf="!showAppLayout" class="auth-layout">
+  <router-outlet></router-outlet> <!-- Le LoginComponent ou RegisterComponent ira ici -->
+</div>

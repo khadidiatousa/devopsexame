@@ -1,0 +1,81 @@
+<div class="body">
+  <div class="tete">
+    <div class="titre">
+      <p>{{ currentPersonnelId ? 'Modifier un Personnel' : 'Ajouter un Personnel' }}</p>
+    </div>
+  </div>
+  <div class="conteain">
+    <div class="Ajouter">
+      <div class="formulaire">
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" [(ngModel)]="personnel.id" name="id" disabled
+                   placeholder="Ex: DTS-DIAMNSall-Pharmacie-001">
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" class="form-control" id="nom" placeholder="Sall"
+                   [(ngModel)]="personnel.nom" name="nom" (input)="onPersonalDetailsChange()">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" class="form-control" id="prenom" placeholder="Khadidiatou"
+                   [(ngModel)]="personnel.prenom" name="prenom" (input)="onPersonalDetailsChange()">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="adresse">Adresse</label>
+            <input type="text" class="form-control" id="adresse" placeholder="Keur Massar Jaxaay"
+                   [(ngModel)]="personnel.adresse" name="adresse">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="text" class="form-control" id="telephone" placeholder="77 504 99 27"
+                   [(ngModel)]="personnel.telephone" name="telephone">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="service">Service</label>
+            <input type="text" class="form-control" id="service" placeholder="Pharmacie"
+                   [(ngModel)]="personnel.service" name="service" (input)="onPersonalDetailsChange()">
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary">
+            {{ currentPersonnelId ? 'Mettre à jour' : 'Enregistrer' }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="photo">
+      <div class="tele">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div *ngIf="previewUrl" class="mt-3">
+                <img [src]="previewUrl" alt="Preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd;">
+              </div>
+              <input type="file" class="form-control-file" id="photoUpload" (change)="onFileSelected($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qrcode">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <h3>Code-barres de l'ID</h3>
+              <svg #barcodeSvg></svg>
+              <p>ID: {{ personnel.id }}</p>
+              <button class="btn btn-primary mt-2" (click)="downloadBarcode()">Télécharger le code-barres</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

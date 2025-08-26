@@ -1,0 +1,109 @@
+:root {
+    --1: #E0FBFC;
+    --2: #C2DFE3;
+    --3: #9DB4C0;
+    --4: #5C6B73;
+    --5: #253237;
+    --6: #FFFFFF;
+    --7: #007bff;
+  }
+  .body{
+    margin: 0;
+    padding: 0;
+    
+}
+.tete{
+    background-color: transparent;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.tete div{
+    margin-left: 2em;
+}
+
+.titre p{
+    font-size: 20px;
+}
+
+.contain{
+    width: 950px;
+    height: 770px; ;
+    background-color:  var(--6);
+    margin: 20px;
+
+}
+.te{
+    width: 21px;
+    height: 608px; 
+    background-color:  var(--1);
+}
+
+.Ajouter{
+    width: 580px;
+    height: 608px;
+    background-color: var(--6);
+    margin: 10px;
+
+}
+.formulaire{
+    margin: 20px;
+}
+.photo{
+    width: 400px;
+    height: 608px;
+    margin: 20px;
+    margin: 10px;
+
+
+}
+.tele{
+    width: 400px;
+    height: 266px;
+    background-color: var(--6);
+   margin: 10px;
+
+
+}
+.btn1{
+    width: 96px;
+    height: 31px;
+    background-color: var(--2);
+   margin: 10px;
+
+}
+.qrcode{
+    width: 400px;
+    height: 253px;
+    background-color: var(--6);
+   margin: 10px;
+
+
+}
+.conteain{
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+input{
+    background-color: var(--2);
+    border-radius: 15px;
+}
+button {
+    background-color: var(--2);
+    border-radius: 35px;
+    border: 0;
+    color: var(--5);
+}
+button:hover {
+    background-color: var(--5);
+    border-radius: 35px;
+    border: 0;
+    color: var(--1);
+}
