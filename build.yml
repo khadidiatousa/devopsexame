@@ -36,4 +36,3 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/angular16_app:latest
-
