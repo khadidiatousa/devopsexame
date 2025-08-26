@@ -38,3 +38,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/angular16_app:latest
             ${{ secrets.DOCKER_USERNAME }}/angular16_app:${{ github.sha }}
+
