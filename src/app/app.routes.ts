@@ -3,7 +3,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PersonnelComponent } from './personnel/personnel.component';
 import { PointageComponent } from './pointage/pointage.component';
 import { AjouterComponent } from './ajouter/ajouter.component';
-import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './Connection/login/login.component';
 import { RegisterComponent } from './Connection/register/register.component';
 

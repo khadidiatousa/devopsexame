@@ -16,16 +16,7 @@ const angularApp = new AngularNodeAppEngine();
 
 // Highlighted section: Add the getPrerenderParams function
 // This function tells the build process which pages to pre-render.
-export function getPrerenderParams(): Record<string, () => Promise<string[]>> {
-  return {
-    'ajouter/:id': async () => {
-      // In a real application, you would fetch these IDs from a database or an API.
-      // For this example, we'll use a hardcoded list of IDs.
-      const productIds = ['1', '2', '3', '4'];
-      return productIds;
-    },
-  };
-}
+
 // src/server.ts ou main.server.ts
 
 
