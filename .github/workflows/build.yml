@@ -35,4 +35,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/angular16_app:latest
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/angular16_app:latest
+            ${{ secrets.DOCKER_USERNAME }}/angular16_app:${{ github.sha }}
