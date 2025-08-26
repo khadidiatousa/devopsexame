@@ -21,11 +21,8 @@ export class PointageService {
     return this.http.post<any>(this.apiUrl, pointage);
   }
 
-  // --- NOUVELLE MÉTHODE ---
   getPointageByPersonnelIdAndDate(personnelId: string, date: string): Observable<any> {
-    // Cette méthode recherche le dernier pointage pour un personnel à une date donnée.
-    // Votre backend devra implémenter cette logique.
-    // Par exemple, GET /api/pointages/by-personnel-date?personnel_id=XYZ&date=YYYY-MM-DD
+
     return this.http.get<any>(`${this.apiUrl}/by-personnel-date?personnel_id=${personnelId}&date=${date}`);
   }
 
@@ -45,12 +42,11 @@ export class PointageService {
     });
   }
   downloadReport(format: 'pdf' | 'excel'): Observable<Blob> {
-    // Assurez-vous que cette URL correspond à l'endpoint de votre backend
-    // qui génère et renvoie le fichier.
+
     const reportUrl = `http://localhost:8000/api/pointages/${format}`;
 
     return this.http.get(reportUrl, {
-      responseType: 'blob' // Indique à Angular de traiter la réponse comme un Blob
+      responseType: 'blob'
     });
   }
 }

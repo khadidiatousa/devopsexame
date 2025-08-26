@@ -1,23 +1,33 @@
 version: '3.8'
 
 services:
-  # Définir notre service pour l'application Angular
-  angular-app:
-    container_name: devops_ci_cd
-    # Utiliser le Dockerfile local pour construire l'image
-    build: .
-    # Mapper le port 80 du conteneur au port 8080 de la machine hôte
+  angular:
+    build:
+      context: ./front   # chemin vers ton projet Angular
+      dockerfile: Dockerfile
+    image: angular16_app
     ports:
-      - "8080:80"
-    # Lier un volume pour le rechargement automatique (utile pour le développement,
-    # mais peut être retiré en production)
-    # volumes:
-    #   - .:/app
-    # Réseau
+      - "4200:80"
     networks:
-      - ci-cd-network
+      - app-network
+    restart: always
 
-# Définir le réseau pour l'orchestration
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passer
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
 networks:
-  ci-cd-network:
-    driver: bridge
+  app-network:
+
+volumes:
+  db_data:

@@ -14,6 +14,21 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Highlighted section: Add the getPrerenderParams function
+// This function tells the build process which pages to pre-render.
+export function getPrerenderParams(): Record<string, () => Promise<string[]>> {
+  return {
+    'ajouter/:id': async () => {
+      // In a real application, you would fetch these IDs from a database or an API.
+      // For this example, we'll use a hardcoded list of IDs.
+      const productIds = ['1', '2', '3', '4'];
+      return productIds;
+    },
+  };
+}
+// src/server.ts ou main.server.ts
+
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
@@ -21,7 +36,7 @@ const angularApp = new AngularNodeAppEngine();
  * Example:
  * ```ts
  * app.get('/api/**', (req, res) => {
- *   // Handle API request
+ * // Handle API request
  * });
  * ```
  */
@@ -59,6 +74,7 @@ if (isMainModule(import.meta.url)) {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
+
 
 /**
  * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.

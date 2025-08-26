@@ -13,7 +13,6 @@ export const routes: Routes = [
   { path: 'pointage', component: PointageComponent }, // Exemple de protection
   { path: 'ajouter', component: AjouterComponent}, // Exemple de protection
   { path: 'ajouter', component: AjouterComponent},
-  { path: 'ajouter/:id', component: AjouterComponent}, // Exemple de protection
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

@@ -1,34 +1,14 @@
-# Étape 1 : Construire l'application Angular
-# Nous utilisons une image Node.js pour compiler le code Angular
-FROM node:18-alpine as builder
-
-# Définir le répertoire de travail dans le conteneur
+# Étape 1 : Build Angular
+FROM node:18 AS builder
 WORKDIR /app
-
-# Copier les fichiers package.json et package-lock.json pour installer les dépendances
 COPY package*.json ./
-
-# Installer les dépendances du projet
 RUN npm install
-
-# Copier le reste du code source
 COPY . .
+RUN npm run build -- --configuration production
 
-# Construire l'application en mode production. La sortie sera dans le répertoire 'dist'
-RUN npm run build -- --output-path=./dist/ --configuration production
-
-# Étape 2 : Servir l'application avec Nginx
-# Nous utilisons une image Nginx légère pour servir les fichiers statiques
+# Étape 2 : Serve Angular avec nginx
 FROM nginx:alpine
-
-# Copier le fichier de configuration Nginx dans le conteneur
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copier les fichiers buildés depuis le conteneur 'builder' vers le conteneur Nginx
-COPY --from=builder /app/dist/mon-app-angular /usr/share/nginx/html
-
-# Exposer le port 80 pour le trafic web
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=builder /app/dist/front /usr/share/nginx/html
 EXPOSE 80
-
-# La commande par défaut de Nginx démarre le serveur
 CMD ["nginx", "-g", "daemon off;"]
