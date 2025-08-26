@@ -9,3 +9,4 @@ services:
     ports:
       - "4200:80"   # Angular dispo sur http://localhost:4200
     restart: always
+
